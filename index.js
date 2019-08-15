@@ -4,14 +4,14 @@ let mC = require("mongodb").MongoClient,
 mC.connect(url, { useNewUrlParser: true, useUnifiedTopology: true}, 
 function (err, client) {
 	if(err) console.log(err.stack);
+	var human = {name: "John", age: 18};
 	let db = client.db('democracy');
-	db.collection("humans").findOne({}, function (findErr, result){
-    	if (findErr) throw findErr;
-    	console.log(result.name);
-    	closelient.close();
-  });
-}); 
-//	db.insert({name: "John", age: 18}, function (err, res){
-//		if(err) console.log(err.stack);
-//		console.log(res);
-//	});
+	db.collection('humans').insertOne(human, function (error, response) {
+	    if(error) {
+	        console.log('Error occurred while inserting');
+	    } else {
+	       console.log('inserted record', response.ops[0]);
+	    }
+	});
+	client.close();
+});
